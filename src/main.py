@@ -8,7 +8,7 @@ from src.modules.vehicles.vehicle_model import Vehicle
 from src.modules.users.routes.user_routes import router as user_router
 
 from src.modules.vehicles.routes.vehicle_routes import router as vehicle_router
-
+from fastapi.middleware.cors import CORSMiddleware
 
 from fastapi.exceptions import RequestValidationError
 
@@ -23,8 +23,15 @@ from src.middlewares.requestLogger import (
 
 app = FastAPI()
 app.add_middleware(
-    RequestLoggerMiddleware
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
 app.include_router(vehicle_router)
 app.include_router(user_router)
 
